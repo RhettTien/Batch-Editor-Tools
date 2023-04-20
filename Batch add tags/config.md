@@ -2,6 +2,10 @@
 
 <img src="image\gfgdfgherghdf.png" alt="gfgdfgherghdf" style="zoom:67%;" />
 
+Only tested in Anki Version ⁨2.1.61
+
+The python version used is 3.11.3
+
 ----
 
 **Find the plugin in the plugin options to modify the configuration**
