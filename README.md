@@ -1,2 +1,2 @@
 # Batch-add-tags
-Batch add tags according to the specified vocabulary list.
+Anki plugin, batch add tags according to the specified vocabulary list.
