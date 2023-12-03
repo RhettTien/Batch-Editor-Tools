@@ -145,26 +145,25 @@ class MainWindow(QMainWindow):
         self.was_replaced_title.move(20, 100)
         # input was replaced text
         self.was_replaced_text = QLineEdit(self)
-        self.was_replaced_text.setPlaceholderText(' Was Replaced Content(Click Help Get More↓)')
-        self.was_replaced_text.resize(370, 30)
+        self.was_replaced_text.setPlaceholderText(' Was Replaced Content')
+        self.was_replaced_text.resize(210, 30)
         self.was_replaced_text.move(130, 95)
+        # select all content function button
+        self.select_all_btn = QPushButton("AllContent", self)
+        self.select_all_btn.resize(150, 30)
+        self.select_all_btn.move(350, 95)
         # replace new text
         self.new_content = QLabel('New Content: ', self)
         self.new_content.move(20, 140)
         # input new text
         self.new_content_text = QLineEdit(self)
-        self.new_content_text.setPlaceholderText(' New Content')
+        self.new_content_text.setPlaceholderText(' Input Some New Content')
         self.new_content_text.resize(370, 30)
         self.new_content_text.move(130, 135)
         # start replace, if was replaced text is null, equal delete
         self.batch_eplace_content_btn = QPushButton("Batch Replace Content", self)
         self.batch_eplace_content_btn.resize(210, 30)
         self.batch_eplace_content_btn.move(130, 170)
-        
-        # help button
-        self.help_doc_btn = QPushButton("Help Doc", self)
-        self.help_doc_btn.resize(150, 30)
-        self.help_doc_btn.move(350, 170)
         
         # help doc link
         helpDoc = QLabel(self)
@@ -191,7 +190,7 @@ class MainWindow(QMainWindow):
         # button function
         self.select_tag_btn.clicked.connect(self.show_select_tag_window) 
         self.fields_name_btn.clicked.connect(self.show_select_field_window)
-        self.help_doc_btn.clicked.connect(self.help_doc)
+        self.select_all_btn.clicked.connect(self.help_doc)
         
     # replace text
     def batch_replace_text(self):
@@ -215,10 +214,7 @@ class MainWindow(QMainWindow):
         select_window.show()  
 
     def help_doc(self):
-        # help doc window
-        help_doc_text = "Typing \"totally-all-content\" in the was replaced text box\r\nand leaving the new content text box empty can\r\nbe used as a *batch empty field content* function.\r\n----------------------------------------------------\r\nTyping  \"this-field-is-blank\" in the new content text box,\r\ncan be used as a function of *batch filling fields*."
-        QMessageBox.information(self, "Help", help_doc_text, QMessageBox.Yes)
-        return
+        self.was_replaced_text.setText("totally-all-content")
         
 def text_start():
     # mw.tools_dialog = InputDialog(mw.app.activeWindow())

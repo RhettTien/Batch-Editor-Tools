@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
         self.add_tag_dialog.setMaxLength(30)
         # start add tag button
         self.batch_add_tag_btn = QPushButton("Batch Add Tags", self)
-        self.batch_add_tag_btn.resize(220, 30)
+        self.batch_add_tag_btn.resize(210, 30)
         self.batch_add_tag_btn.move(130, 170)
         
         # help doc link
