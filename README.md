@@ -5,6 +5,7 @@
 > NOTE: **The plug-in only in the windows operating system has been tested, the test text for the English language, if you edit the text of other languages, please make a backup first!**
 
 > **Tested version:** 
+>
 > Win 11 23H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 6.6.0 PyQt 6.6.0;
 > Win 10 22H2(10-10.0.19045), Anki 2.1.61 (Pyqt5), Python 3.9.15 Qt 6.4.2 PyQt 6.4.0;
 > Win 10 21H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 5.15.2 PyQt 5.15.5.
@@ -60,7 +61,7 @@ Some Additional Features:
 Get the pronunciation of the word through the API, then save the media file locally and add the media file to the specified field of the card.
 
 The plugin uses Youdao's API by default, you can also use other APIs, but be careful to make sure the format matches.
-The plugin gets the address of the audio file in the format `api_link+word+sound_type`, which will eventually be combined into a link that can be accessed in the browser, all the plugin does is to simulate accessing and saving the file in the browser.
+The plugin gets the address of the audio file in the format `api_link + word + sound_type`, which will eventually be combined into a link that can be accessed in the browser, all the plugin does is to simulate accessing and saving the file in the browser.
 
 ---
 
