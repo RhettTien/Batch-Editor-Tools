@@ -1,11 +1,17 @@
 import webbrowser
-from PyQt5.QtWidgets import QDialog
+
+try:
+    from PyQt6.QtWidgets import QDialog
+except ImportError:
+    from PyQt5.QtWidgets import QDialog
+
 from aqt.browser.browser import Browser
 from aqt.gui_hooks import browser_menus_did_init
 
 from .tag_main import tag_start
 from .text_main import text_start
 from .audio_main import audio_start
+
 
 def __init__(self, browser):
     QDialog.__init__(self, parent=browser)

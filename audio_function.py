@@ -25,11 +25,11 @@ def add_audio(
     
     # tag or field name not null
     if(find_word_name_value == "" or select_tag_value == ""):
-        QMessageBox.warning(self, "Waring", "The Field Name or the Tag cannot be null!",QMessageBox.Yes)
+        QMessageBox.warning(self, "Waring", "The Field Name or the Tag cannot be null!",QMessageBox.StandardButton.Yes)
         return
     
     if(save_field_name_value == ""):
-        QMessageBox.warning(self, "Waring", "Please select the field to which the audio file will be written!",QMessageBox.Yes)
+        QMessageBox.warning(self, "Waring", "Please select the field to which the audio file will be written!",QMessageBox.StandardButton.Yes)
         return
     
     # save file prefix
@@ -51,21 +51,21 @@ def add_audio(
     try:
         sleep_times = int(sleep_time)
     except:
-        QMessageBox.critical(self, "Wrong!", "The sleep time must be a Number!",QMessageBox.Yes)
+        QMessageBox.critical(self, "Wrong!", "The sleep time must be a Number!",QMessageBox.StandardButton.Yes)
         return
     
     if(sleep_times < 0):
-        QMessageBox.critical(self, "Waring", "Time cannot be negative.!",QMessageBox.Yes)
+        QMessageBox.critical(self, "Waring", "Time cannot be negative.!",QMessageBox.StandardButton.Yes)
         return
     
     if(sleep_times > 20000):
-        choice = QMessageBox.warning(self, "Waring", "There's been a pause of more than 20 seconds.\r\nAre you sure you want to continue?",QMessageBox.Yes,QMessageBox.No)
-        if(choice == QMessageBox.No):
+        choice = QMessageBox.warning(self, "Waring", "There's been a pause of more than 20 seconds.\r\nAre you sure you want to continue?",QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if(choice == QMessageBox.StandardButton.No):
             return
     
     # save file path
     if(folder_path == ""):
-        QMessageBox.warning(self, "Waring", "Please select the folder where you want to save your media, the default path is\r\n'C:/Users/PC_user_name/AppData/Roaming/Anki2/anki_local_user_name/collection.media'",QMessageBox.Yes)
+        QMessageBox.warning(self, "Waring", "Please select the folder where you want to save your media, the default path is\r\n'C:/Users/PC_user_name/AppData/Roaming/Anki2/anki_local_user_name/collection.media'",QMessageBox.StandardButton.Yes)
         return
     
     headers = {
@@ -75,6 +75,7 @@ def add_audio(
     
     global count
     count = 0
+    not_word = 0
     cards_id_list = mw.col.find_cards("tag:" + select_tag_value)
     for i in cards_id_list:
 
@@ -88,17 +89,25 @@ def add_audio(
             # whether the field you are looking for exists
             word = note[find_word_name_value]
         except:
-            QMessageBox.critical(self, "Wrong!", "The filtered card does not have the specified Field, please select another one!",QMessageBox.Yes)
+            QMessageBox.critical(self, "Wrong!", "The filtered card does not have the specified Field, please select another one!",QMessageBox.StandardButton.Yes)
             return
         
-        if(word == ""):
+        if(str(word) == ""):
+            not_word += 1
+            if(not_word == 20):
+                QMessageBox.warning(self, "Waring", "The field doesn't seem to be a word field!",QMessageBox.StandardButton.Yes)
+                return
+            return
+        
+        if(is_english_word(word) == False):
+            QMessageBox.warning(self, "Waring", "The field doesn't seem to be a word field!",QMessageBox.StandardButton.Yes)
             return
         
         try:
             # existence of fields that can be written to
             temp = note[save_field_name_value]
         except:
-            QMessageBox.critical(self, "Wrong!", "Media file field does not exist!",QMessageBox.Yes)
+            QMessageBox.critical(self, "Wrong!", "Media file field does not exist!",QMessageBox.StandardButton.Yes)
             return
         
         # audio file link
@@ -131,9 +140,16 @@ def add_audio(
         update_window = ShowChangeCount(self)  
         update_window.show()
         
-    QMessageBox.information(self, "Result", "Update cards count: %d" % count,QMessageBox.Yes)
+    QMessageBox.information(self, "Result", "Update cards count: %d" % count,QMessageBox.StandardButton.Yes)
     
 # Next version update: Enabling multithreading can speed up execution, need to consider the accuracy of the counting function.
+
+def is_english_word(character):
+    for cha in character:
+        if not 'A' <= cha <= 'Z' and not 'a' <= cha <= 'z':
+            return False
+    else:
+        return True
 
 class ShowChangeCount(QMainWindow):
     def __init__(self, parent=None):

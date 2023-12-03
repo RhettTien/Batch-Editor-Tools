@@ -12,18 +12,18 @@ def add_tag(select_tag_value, add_tag_value, field_name_value, file_path_value):
     self = QWidget()
     
     if(field_name_value == "" or add_tag_value == ""):
-        QMessageBox.warning(self, "Warning", "The Field Name or the Tag cannot be null!",QMessageBox.Yes)
+        QMessageBox.warning(self, "Warning", "The Field Name or the Tag cannot be null!",QMessageBox.StandardButton.Yes)
         return
         
     # wrong file path
     if(len(file_path_value) < 2):
-        QMessageBox.warning(self, "Warning", "Must select a word list file to execute!",QMessageBox.Yes)
+        QMessageBox.warning(self, "Warning", "Must select a word list file to execute!",QMessageBox.StandardButton.Yes)
         return
     
     # wrong file type
     file_type = file_path_value[file_path_value.rfind(".")+1:]
     if(file_type != "xls" and file_type != "xlsx" and file_type != "txt"):
-        QMessageBox.critical(self, "Wrong!", "Please select the correct file format!\r\n.txt .xls .xlsx",QMessageBox.Yes)
+        QMessageBox.critical(self, "Wrong!", "Please select the correct file format!\r\n.txt .xls .xlsx",QMessageBox.StandardButton.Yes)
         return
 
     # fill words list
@@ -87,5 +87,5 @@ def add_tag(select_tag_value, add_tag_value, field_name_value, file_path_value):
             
     # mw.col.close()
     # show a message box
-    QMessageBox.information(self, "Result", "Update cards count: %d" % number + "\r\nReopen the window to refresh the changes.",QMessageBox.Yes)
+    QMessageBox.information(self, "Result", "Update cards count: %d" % number + "\r\nReopen the window to refresh the changes.",QMessageBox.StandardButton.Yes)
     

@@ -1,5 +1,9 @@
 from aqt import QComboBox, QFileDialog, QLabel, QMainWindow, QVBoxLayout, mw
-from PyQt5.QtWidgets import (QPushButton, QLineEdit)
+
+try:
+    from PyQt6.QtWidgets import (QPushButton, QLineEdit)
+except ImportError:
+    from PyQt5.QtWidgets import (QPushButton, QLineEdit)
 
 from . import audio_function
 

@@ -1,10 +1,13 @@
-# Batch Editor Tools Pyqt5
+# Batch Editor Tools
 
 ## If you have a need to batch edit card tag or field or audio, you should try this plugin.
 
 > NOTE: **The plug-in only in the windows operating system has been tested, the test text for the English language, if you edit the text of other languages, please make a backup first!**
 
-> For Anki-Pyqt5 version only, Anki-Pyqt6 Access: <a href="https://github.com/RhettTien/Batch-Editor-Tools-Pyqt6">Batch Editor Tools Pyqt6</a>
+> **Tested version:** 
+> Win 11 23H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 6.6.0 PyQt 6.6.0;
+> Win 10 22H2(10-10.0.19045), Anki 2.1.61 (Pyqt5), Python 3.9.15 Qt 6.4.2 PyQt 6.4.0;
+> Win 10 21H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 5.15.2 PyQt 5.15.5.
 
 <img src=".\screenshot\white.png" alt="white" style="zoom:50%;" />
 
@@ -58,6 +61,23 @@ Get the pronunciation of the word through the API, then save the media file loca
 
 The plugin uses Youdao's API by default, you can also use other APIs, but be careful to make sure the format matches.
 The plugin gets the address of the audio file in the format `api_link+word+sound_type`, which will eventually be combined into a link that can be accessed in the browser, all the plugin does is to simulate accessing and saving the file in the browser.
+
+---
+
+**If you trigger this error message, don't worry, the plugin will still work fine, I haven't figured out what's going on yet.**
+
+```
+Caught exception:
+Traceback (most recent call last):
+  File "aqt.main", line 275, in on_focus_changed
+  File "_aqt.hooks", line 3460, in __call__
+  File "aqt.main", line 822, in on_focus_did_change
+AttributeError: 'QObject' object has no attribute 'window'
+```
+
+
+
+**If you trigger another bug, please copy the detailed error message and submit an issue in Github and I'll fix it as soon as possible.**
 
 ---
 

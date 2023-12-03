@@ -1,5 +1,9 @@
 from aqt import QComboBox, QLabel, QMainWindow, QMessageBox, QVBoxLayout, mw
-from PyQt5.QtWidgets import (QPushButton, QLineEdit)
+
+try:
+    from PyQt6.QtWidgets import (QPushButton, QLineEdit)
+except ImportError:
+    from PyQt5.QtWidgets import (QPushButton, QLineEdit)
 
 from . import text_function
 
@@ -194,8 +198,8 @@ class MainWindow(QMainWindow):
         
     # replace text
     def batch_replace_text(self):
-        choice = QMessageBox.question(self, "Confirm", "Confirmation to start?",QMessageBox.Yes,QMessageBox.No)
-        if(choice == QMessageBox.Yes):
+        choice = QMessageBox.question(self, "Confirm", "Confirmation to start?",QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if(choice == QMessageBox.StandardButton.Yes):
             # select tag , was replaced text, new text
             self.select_tag_value = self.select_tag_dialog.text()
             self.field_name_value = self.field_name_dialog.text()
