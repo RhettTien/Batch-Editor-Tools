@@ -7,7 +7,9 @@
 > **Tested version:** 
 >
 > Win 11 23H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 6.6.0 PyQt 6.6.0;
+> 
 > Win 10 22H2(10-10.0.19045), Anki 2.1.61 (Pyqt5), Python 3.9.15 Qt 6.4.2 PyQt 6.4.0;
+> 
 > Win 10 21H2(10-10.0.22621), Anki 23.10.1 (Pyqt6), Python 3.9.15 Qt 5.15.2 PyQt 5.15.5.
 
 <img src=".\screenshot\white.png" alt="white" style="zoom:50%;" />
