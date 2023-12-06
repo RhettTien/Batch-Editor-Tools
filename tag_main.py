@@ -173,7 +173,7 @@ class MainWindow(QMainWindow):
         # help doc link
         helpDoc = QLabel(self)
         helpDoc.resize(600, 30)
-        helpDoc.move(110, 210)
+        helpDoc.move(95, 210)
         helpDoc.setText(
             "If you have any question, Click here: <a href='https://github.com/Anki-Tools/BatchTools'> Github</a> <a href='https://github.com/Anki-Tools/BatchTools'>AnkiWeb</a>")
         # The setOpenExternalLinks (True) method of the tag is used to control the connection with the external environment

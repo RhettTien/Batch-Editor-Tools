@@ -1,4 +1,4 @@
-from aqt import QComboBox, QLabel, QMainWindow, QMessageBox, QVBoxLayout, mw
+from aqt import QCheckBox, QComboBox, QLabel, QMainWindow, QMessageBox, QTextEdit, QVBoxLayout, mw
 
 try:
     from PyQt6.QtWidgets import (QPushButton, QLineEdit)
@@ -116,6 +116,8 @@ class MainWindow(QMainWindow):
         self.replace_content_value = ""
         # replace text
         self.was_replace_content_value = ""
+        # insert as html
+        self.is_html = False
         
         # replace content layout
         # select a tag
@@ -148,31 +150,47 @@ class MainWindow(QMainWindow):
         self.was_replaced_title = QLabel('WasReplaced: ', self)
         self.was_replaced_title.move(20, 100)
         # input was replaced text
-        self.was_replaced_text = QLineEdit(self)
-        self.was_replaced_text.setPlaceholderText(' Was Replaced Content')
-        self.was_replaced_text.resize(210, 30)
+        self.was_replaced_text = QTextEdit(self)
+        self.was_replaced_text.setPlaceholderText(' Was Replaced Content(Plain text only)')
+        self.was_replaced_text.resize(370, 130)
         self.was_replaced_text.move(130, 95)
         # select all content function button
-        self.select_all_btn = QPushButton("AllContent", self)
-        self.select_all_btn.resize(150, 30)
-        self.select_all_btn.move(350, 95)
+        self.select_all_btn = QPushButton("All", self)
+        self.select_all_btn.resize(95, 30)
+        self.select_all_btn.move(15, 135)
+        # clear
+        self.w_clear_btn = QPushButton("Clear", self)
+        self.w_clear_btn.resize(95, 30)
+        self.w_clear_btn.move(15, 175)
+        # as html or text
+        self.chkBox = QCheckBox(self)
+        self.chkBox.setText("Replace As HTML")
+        self.chkBox.move(360, 375)
+        self.chkBox.resize(200, 24)
+        self.chkBox.stateChanged.connect(self.btnState)
+        # self.chkBox.stateChanged.connect(lambda: self.btnState(self.chkBox))
+        
         # replace new text
         self.new_content = QLabel('New Content: ', self)
-        self.new_content.move(20, 140)
+        self.new_content.move(20, 240)
+        # clear
+        self.n_clear_btn = QPushButton("Clear", self)
+        self.n_clear_btn.resize(95, 30)
+        self.n_clear_btn.move(15, 275)
         # input new text
-        self.new_content_text = QLineEdit(self)
-        self.new_content_text.setPlaceholderText(' Input Some New Content')
-        self.new_content_text.resize(370, 30)
-        self.new_content_text.move(130, 135)
+        self.new_content_text = QTextEdit(self)
+        self.new_content_text.setPlaceholderText(' Input Some New Content(Text or HTML)')
+        self.new_content_text.resize(370, 130)
+        self.new_content_text.move(130, 235)
         # start replace, if was replaced text is null, equal delete
-        self.batch_eplace_content_btn = QPushButton("Batch Replace Content", self)
+        self.batch_eplace_content_btn = QPushButton("Batch Replace", self)
         self.batch_eplace_content_btn.resize(210, 30)
-        self.batch_eplace_content_btn.move(130, 170)
+        self.batch_eplace_content_btn.move(130, 370)
         
         # help doc link
         helpDoc = QLabel(self)
         helpDoc.resize(600, 30)
-        helpDoc.move(110, 210)
+        helpDoc.move(95, 410)
         helpDoc.setText(
             "If you have any question, Click here: <a href='https://github.com/Anki-Tools/BatchTools'> Github</a> <a href='https://github.com/Anki-Tools/BatchTools'>AnkiWeb</a>")
         # The setOpenExternalLinks (True) method of the tag is used to control the connection with the external environment
@@ -185,7 +203,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.fields_name_btn) 
          
         # set window size
-        self.setFixedSize(520, 240)
+        self.setFixedSize(520, 440)
         self.show()
     
         # start button
@@ -194,18 +212,44 @@ class MainWindow(QMainWindow):
         # button function
         self.select_tag_btn.clicked.connect(self.show_select_tag_window) 
         self.fields_name_btn.clicked.connect(self.show_select_field_window)
-        self.select_all_btn.clicked.connect(self.help_doc)
+        self.select_all_btn.clicked.connect(self.all_content)
+        self.w_clear_btn.clicked.connect(self.clear_content)
+        self.n_clear_btn.clicked.connect(self.clear_content)
+    
+    def btnState(self):
+        self.is_html = self.chkBox.isChecked()
         
     # replace text
     def batch_replace_text(self):
         choice = QMessageBox.question(self, "Confirm", "Confirmation to start?",QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if(choice == QMessageBox.StandardButton.Yes):
-            # select tag , was replaced text, new text
+            # if html, select tag , was replaced text, new text
             self.select_tag_value = self.select_tag_dialog.text()
             self.field_name_value = self.field_name_dialog.text()
-            self.was_replace_content_value = self.was_replaced_text.text()
-            self.replace_content_value = self.new_content_text.text()
-            text_function.replace_text(self.select_tag_value, self.field_name_value, self.was_replace_content_value, self.replace_content_value)
+            
+            if(self.is_html):
+                # html
+                
+                was_v : str
+                if(str(self.was_replaced_text.toPlainText()) == "totally-all-content"):
+                    was_v = "totally-all-content"
+                else:
+                    was_v = str(self.was_replaced_text.toPlainText())
+                
+                text_function.replace_text(
+                    self.is_html,
+                    self.select_tag_value, 
+                    self.field_name_value, 
+                    was_v, 
+                    str(self.new_content_text.toHtml()))
+            elif(not self.is_html):
+                # text
+                text_function.replace_text(
+                    self.is_html,
+                    self.select_tag_value, 
+                    self.field_name_value, 
+                    str(self.was_replaced_text.toPlainText()), 
+                    str(self.new_content_text.toPlainText()))
         
     def show_select_tag_window(self):
         # select tag window
@@ -217,9 +261,15 @@ class MainWindow(QMainWindow):
         select_window = SelectFieldWindow(self)  
         select_window.show()  
 
-    def help_doc(self):
+    def all_content(self):
         self.was_replaced_text.setText("totally-all-content")
         
+    def clear_content(self):
+        if(self.sender() == self.w_clear_btn):
+            self.was_replaced_text.setText("")  
+        else:
+            self.new_content_text.setText("")  
+            
 def text_start():
     # mw.tools_dialog = InputDialog(mw.app.activeWindow())
     mw.tools_dialog = MainWindow(mw.app.activeWindow())
