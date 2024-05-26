@@ -27,7 +27,7 @@ class SelectTagWindow(QMainWindow):
         self.combo.move(40, 60)
         # fill options
         taglist = mw.col.tags.all()
-        for tag in taglist:
+        for tag in sorted(taglist):
             self.combo.addItem(tag)
         # set layout
         layout = QVBoxLayout()  
@@ -53,6 +53,7 @@ class SelectFieldWindow(QMainWindow):
         # window title
         self.setWindowTitle('Fields')  
         self.setGeometry(750, 350, 290, 190)  
+
         # message
         self.label_info = QLabel('Select a field', self)  
         self.label_info.resize(300,30)
@@ -63,27 +64,22 @@ class SelectFieldWindow(QMainWindow):
         self.combo.resize(220,30)  
         self.combo.move(40, 60)
         # fill options
-        note_id_list = []
-        # all tags
-        tag_list = mw.col.tags.all()
-        for tag in tag_list:
-            # get card id
-            card_id_list = mw.col.find_cards("tag:" + tag)
-            for card_id in card_id_list:
-                # turn to note id
-                note_id_list.append(mw.col.get_card(card_id).note().id)
-        field_name_list = []
-        for note_id in note_id_list:
-            # get field name
-            list = mw.col.field_names_for_note_ids([note_id])
-            for i in list:
-                field_name_list.append(i)
-        temp_list = []
-        for i in field_name_list:
-            if i not in temp_list:
-                temp_list.append(i)
-        for i in temp_list:
-            self.combo.addItem(i)
+        if self.parent().select_tag_dialog.text() == "":
+            fields_list = []
+            for tag in set(mw.col.tags.all()):
+                notes_list = mw.col.find_notes("tag:" + tag)
+                # fields = mw.col.get_note(notes_list[0]).keys()
+                fields = mw.col.field_names_for_note_ids([notes_list[0]])
+                for field in fields:
+                    fields_list.append(field)
+            for field_name in sorted(set(fields_list)):
+                self.combo.addItem(field_name)
+        else:
+            notes_list = mw.col.find_notes("tag:" + self.parent().select_tag_dialog.text())
+            if notes_list:
+                fields_list = set(mw.col.field_names_for_note_ids([notes_list[0]]))
+                for field_name in sorted(fields_list):
+                    self.combo.addItem(field_name)
         # set layout
         layout = QVBoxLayout()  
         layout.addWidget(self.label_info)  
@@ -175,7 +171,7 @@ class MainWindow(QMainWindow):
         helpDoc.resize(600, 30)
         helpDoc.move(95, 210)
         helpDoc.setText(
-            "If you have any question, Click here: <a href='https://github.com/Anki-Tools/BatchTools'> Github</a> <a href='https://github.com/Anki-Tools/BatchTools'>AnkiWeb</a>")
+            "If you have any question, Click here: <a href='https://github.com/RhettTien/Batch-Editor-Tools'> Github</a> <a href='https://ankiweb.net/shared/info/1609139780'>AnkiWeb</a>")
         # The setOpenExternalLinks (True) method of the tag is used to control the connection with the external environment
         helpDoc.setOpenExternalLinks(True)
         
@@ -243,7 +239,6 @@ class MainWindow(QMainWindow):
         select_window.show()  
 
 def tag_start():
-    # mw.tools_dialog = MainWindow(mw.app.activeWindow())
     mw.tools_dialog = MainWindow(mw.app.activeWindow())
     mw.tools_dialog.show()
     

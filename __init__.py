@@ -8,10 +8,9 @@ except ImportError:
 from aqt.browser.browser import Browser
 from aqt.gui_hooks import browser_menus_did_init
 
-from .tag_main import tag_start
-from .text_main import text_start
-from .audio_main import audio_start
-
+from .tag_ui import tag_start
+from .text_ui import text_start
+from .audio_ui import audio_start
 
 def __init__(self, browser):
     QDialog.__init__(self, parent=browser)
@@ -22,7 +21,7 @@ def open_help_page():
     
 def setup_menu(self: Browser):
     menubar = self.form.menubar
-    menu = menubar.addMenu("Batch Tools")
+    menu = menubar.addMenu("Batch Edit Tools")
 
     tag = menu.addAction("Batch Add Tag")
     tag.triggered.connect(lambda _: tag_start())
